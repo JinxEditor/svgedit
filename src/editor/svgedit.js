@@ -170,40 +170,67 @@ const callbacks = [],
   * @property {boolean} [noDefaultExtensions=false] If set to `true`, prohibits automatic inclusion of default extensions (though "extensions" can still be used to add back any desired default extensions along with any other extensions). This can only be meaningfully used in `svgedit-config-iife.js` or in the URL
   // 不加载本地存储的svg编辑
   * @property {boolean} [noStorageOnLoad=false] Some interaction with `ext-storage.js`; prevent even the loading of previously saved local storage.
+  // 强制保存
   * @property {boolean} [forceStorage=false] Some interaction with `ext-storage.js`; strongly discouraged from modification as it bypasses user privacy by preventing them from choosing whether to keep local storage or not (and may be required by law in some regions)
+  // 用户拒绝保存时，清空之前的记录
   * @property {boolean} [emptyStorageOnDecline=false] Used by `ext-storage.js`; empty any prior storage if the user declines to store
+  // 废弃
   * @property {boolean} [avoidClientSide=false] DEPRECATED (use `avoidClientSideDownload` instead); Used by `ext-server_opensave.js`; set to `true` if you wish to always save to server and not only as fallback when client support is lacking
+  // 保存到服务器，服务器地址在哪里配置呢。。
   * @property {boolean} [avoidClientSideDownload=false] Used by `ext-server_opensave.js`; set to `true` if you wish to always save to server and not only as fallback when client support is lacking
+  // 从服务器打开，本地FileReader不可用时
   * @property {boolean} [avoidClientSideOpen=false] Used by `ext-server_opensave.js`; set to `true` if you wish to always open from the server and not only as fallback when FileReader client support is lacking
+  // default extensions会和这个数组合并，除非设置 noDefaultExtensions
   * @property {string[]} [extensions=[]] Extensions to load on startup. Use an array in `setConfig` and comma separated file names in the URL. Extension names must begin with "ext-". Note that as of version 2.7, paths containing "/", "\", or ":", are disallowed for security reasons. Although previous versions of this list would entirely override the default list, as of version 2.7, the defaults will always be added to this explicit list unless the configuration `noDefaultExtensions` is included. See {@link module:SVGEditor~defaultExtensions}.
+  // 跨域设置，什么是 embedded editor and main editor code，没理解
   * @property {string[]} [allowedOrigins=[]] Used by `ext-xdomain-messaging.js` to indicate which origins are permitted for cross-domain messaging (e.g., between the embedded editor and main editor code). Besides explicit domains, one might add '*' to allow all domains (not recommended for privacy/data integrity of your user's content!), `window.location.origin` for allowing the same origin (should be safe if you trust all apps on your domain), 'null' to allow `file:///` URL usage
+  // color picker使用的颜色
   * @property {null|PlainObject} [colorPickerCSS=null] Object of CSS properties mapped to values (for jQuery) to apply to the color picker. See {@link http://api.jquery.com/css/#css-properties}. A `null` value (the default) will cause the CSS to default to `left` with a position equal to that of the `fill_color` or `stroke_color` element minus 140, and a `bottom` equal to 40
+  // ？？？
   * @property {string} [paramurl] This was available via URL only. Allowed an un-encoded URL within the query string (use "url" or "source" with a data: URI instead)
+  // 整个编辑器的滚动范围，设置为1就不能滚动了
   * @property {Float} [canvas_expansion=3] The minimum area visible outside the canvas, as a multiple of the image dimensions. The larger the number, the more one can scroll outside the canvas.
+  // 填充工具的调色板颜色
   * @property {PlainObject} [initFill] Init fill properties
   * @property {string} [initFill.color="FF0000"] The initial fill color. Must be a hex code string. Defaults to solid red.
   * @property {Float} [initFill.opacity=1] The initial fill opacity. Must be a number between 0 and 1
+  // 线的默认颜色
   * @property {PlainObject} [initStroke] Init stroke properties
   * @property {Float} [initStroke.width=5] The initial stroke width. Must be a positive number.
   * @property {string} [initStroke.color="000000"] The initial stroke color. Must be a hex code. Defaults to solid black.
   * @property {Float} [initStroke.opacity=1] The initial stroke opacity. Must be a number between 0 and 1.
+  // 文字的默认颜色
   * @property {PlainObject} text Text style properties
   * @property {Float} [text.stroke_width=0] Text stroke width
   * @property {Float} [text.font_size=24] Text font size
   * @property {string} [text.font_family="serif"] Text font family
+  // 透明度
   * @property {Float} [initOpacity=1] Initial opacity (multiplied by 100)
+  // svg编辑器的大小 DOM 元素的尺寸
   * @property {module:SVGEditor.XYDimensions} [dimensions=[640, 480]] The default width/height of a new document. Use an array in `setConfig` (e.g., `[800, 600]`) and comma separated numbers in the URL.
+  // 网格对齐
   * @property {boolean} [gridSnapping=false] Enable snap to grid by default. Set in Editor Options.
+  // 网格颜色
   * @property {string} [gridColor="#000"] Accepts hex, e.g., '#000'. Set in Editor Options. Defaults to black.
+  // 单位
   * @property {string} [baseUnit="px"] Set in Editor Options.
+  // ？？？ 网格对齐时的步长 怎么理解
   * @property {Float} [snappingStep=10] Set the default grid snapping value. Set in Editor Options.
+  // 显示尺子
   * @property {boolean} [showRulers=true] Initial state of ruler display (v2.6). Set in Editor Options.
+  // 默认选中的工具
   * @property {string} [initTool="select"] The initially selected tool. Must be either the ID of the button for the tool, or the ID without `tool_` prefix (e.g., "select").
+  // 线框模式，这个有什么用处吗？ 顶栏第三个按钮
   * @property {boolean} [wireframe=false] Start in wireframe mode
+  // 是否展示层侧边栏
   * @property {boolean} [showlayers=false] Open the layers side-panel by default.
+  // ？？？
   * @property {"new"|"same"} [exportWindowType="new"] Can be "new" or "same" to indicate whether new windows will be generated for each export; the `window.name` of the export window is namespaced based on the `canvasName` (and incremented if "new" is selected as the type). Introduced 2.8.
+  // 是否展示网格
   * @property {boolean} [showGrid=false] Set by `ext-grid.js`; determines whether or not to show the grid by default
+  // 是否展示超出canvas范围的元素
   * @property {boolean} [show_outside_canvas=true] Defines whether or not elements outside the canvas should be visible. Set and used in `svgcanvas.js`.
+  // 选中新添加的元素
   * @property {boolean} [selectNew=true] If true, will replace the selection with the current element and automatically select element objects (when not in "path" mode) after they are created, showing their grips (v2.6). Set and used in `svgcanvas.js` (`mouseUp`).
   * @todo Some others could be preferences as well (e.g., preventing URL changing of extensions, defaultExtensions, stylesheets, colorPickerCSS); Change the following to preferences and add pref controls where missing to the UI (e.g., `canvas_expansion`, `initFill`, `initStroke`, `text`, `initOpacity`, `dimensions`, `initTool`, `wireframe`, `showlayers`, `gridSnapping`, `gridColor`, `baseUnit`, `snappingStep`, `showRulers`, `exportWindowType`, `showGrid`, `show_outside_canvas`, `selectNew`)?
   */
