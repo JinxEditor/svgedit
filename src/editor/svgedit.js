@@ -224,7 +224,7 @@ const callbacks = [],
   * @property {boolean} [wireframe=false] Start in wireframe mode
   // 是否展示层侧边栏
   * @property {boolean} [showlayers=false] Open the layers side-panel by default.
-  // ？？？
+  // 导出窗口类型，也没看出来这两个有什么区别
   * @property {"new"|"same"} [exportWindowType="new"] Can be "new" or "same" to indicate whether new windows will be generated for each export; the `window.name` of the export window is namespaced based on the `canvasName` (and incremented if "new" is selected as the type). Introduced 2.8.
   // 是否展示网格
   * @property {boolean} [showGrid=false] Set by `ext-grid.js`; determines whether or not to show the grid by default
