@@ -154,7 +154,7 @@ const callbacks = [],
   /**
   * @tutorial ConfigOptions
   * @interface module:SVGEditor.Config
-  // 如果页面上由多个编译器时使用
+  // 如果页面上由多个编译器时使用 test
   * @property {string} [canvasName="default"] Used to namespace storage provided via `ext-storage.js`; you can use this if you wish to have multiple independent instances of SVG Edit on the same domain
   // unload是否提示用户
   * @property {boolean} [no_save_warning=false] If `true`, prevents the warning dialog box from appearing when closing/reloading the page. Mostly useful for testing.
