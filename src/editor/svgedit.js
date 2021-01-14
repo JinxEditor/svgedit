@@ -337,6 +337,7 @@ let svgCanvas, urldata = {},
  * @param {boolean} [opts.noAlert]
  * @throws {Error} Upon failure to load SVG
  */
+// 从字符串加载svg内容
 const loadSvgString = (str, {noAlert} = {}) => {
   const success = svgCanvas.setSvgString(str) !== false;
   if (success) return;
@@ -1375,6 +1376,7 @@ editor.init = () => {
   // let textBeingEntered = false; // Currently unused
   const origTitle = $('title:first').text();
   // Make [1,2,5] array
+  // ？？？
   const rIntervals = [];
   for (let i = 0.1; i < 1e5; i *= 10) {
     rIntervals.push(i);
@@ -1825,10 +1827,12 @@ editor.init = () => {
         }
       }
 
+      // 在viewport中 main number 间隔的距离
       const bigInt = multi * uMulti;
 
       ctx.font = '9px sans-serif';
 
+      // 开始坐标，前端留白，尾部填充满
       let rulerD = ((contentDim / uMulti) % multi) * uMulti;
       let labelPos = rulerD - bigInt;
       // draw big intervals
@@ -1933,6 +1937,7 @@ editor.init = () => {
 
     const oldCanY = cnvs.height() / 2;
     const oldCanX = cnvs.width() / 2;
+    // 设置 svgcanvas 尺寸大小，这样如果设置了 canvas_expansion，编辑区域才可以滚动
     cnvs.width(w).height(h);
     const newCanY = h / 2;
     const newCanX = w / 2;
@@ -1959,6 +1964,7 @@ editor.init = () => {
       newCtr.y += offset.y;
     }
 
+    // 如果canvas比workarea大，就显示workarea左上角，否则居中
     if (center) {
       // Go to top-left for larger documents
       if (svgCanvas.contentW > wArea.width()) {
