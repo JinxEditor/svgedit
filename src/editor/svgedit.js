@@ -154,7 +154,7 @@ const callbacks = [],
   /**
   * @tutorial ConfigOptions
   * @interface module:SVGEditor.Config
-  // 如果页面上由多个编译器时使用 test
+  // 如果页面上由多个编译器时使用
   * @property {string} [canvasName="default"] Used to namespace storage provided via `ext-storage.js`; you can use this if you wish to have multiple independent instances of SVG Edit on the same domain
   // unload是否提示用户
   * @property {boolean} [no_save_warning=false] If `true`, prevents the warning dialog box from appearing when closing/reloading the page. Mostly useful for testing.
@@ -220,7 +220,7 @@ const callbacks = [],
   * @property {boolean} [showRulers=true] Initial state of ruler display (v2.6). Set in Editor Options.
   // 默认选中的工具
   * @property {string} [initTool="select"] The initially selected tool. Must be either the ID of the button for the tool, or the ID without `tool_` prefix (e.g., "select").
-  // 线框模式，这个有什么用处吗？ 顶栏第三个按钮
+  // 线框模式，这个有什么用处吗？ 顶栏第三个按钮 - 测试好像是实心个空心的差别 stroke 和 fill
   * @property {boolean} [wireframe=false] Start in wireframe mode
   // 是否展示层侧边栏
   * @property {boolean} [showlayers=false] Open the layers side-panel by default.
@@ -1293,7 +1293,7 @@ editor.init = () => {
     document.getElementById('svgcanvas'),
     curConfig
   );
-  const palette = [
+  const palette = [//右下角预设颜色值
       // Todo: Make into configuration item?
       '#000000', '#3f3f3f', '#7f7f7f', '#bfbfbf', '#ffffff',
       '#ff0000', '#ff7f00', '#ffff00', '#7fff00',
@@ -3393,7 +3393,7 @@ editor.init = () => {
     str += '<div class="palette_item" style="background-color: ' + item +
       ';" data-rgb="' + item + '"></div>';
   });
-  $('#palette').append(str);
+  $('#palette').append(str);//绘制右下角预设颜色
 
   // Set up editor background functionality
   const colorBlocks = ['#FFF', '#888', '#000', 'chessboard'];
@@ -3406,7 +3406,7 @@ editor.init = () => {
         'gq4jM3IFLJgpswNly/XkcBpIiVaInlLJr9FZWAQA7);"></div>'
       : '<div class="color_block" data-bgcolor="' + e + '" style="background-color:' + e + ';"></div>';
   });
-  $('#bg_blocks').append(str);
+  $('#bg_blocks').append(str);//设置首选项处颜色设置 Editor Preferences
   const blocks = $('#bg_blocks div');
   const curBg = 'cur_background';
   blocks.each(function () {
@@ -3419,7 +3419,7 @@ editor.init = () => {
 
   setBackground(editor.pref('bkgd_color'), editor.pref('bkgd_url'));
 
-  $('#image_save_opts input').val([editor.pref('img_save')]);
+  $('#image_save_opts input').val([editor.pref('img_save')]);//设置文档属性 Document Properties -> Included Images
 
   /**
   * @type {module:jQuerySpinButton.ValueCallback}
@@ -3631,7 +3631,7 @@ editor.init = () => {
   $('#toggle_stroke_tools').on('click', function () {
     $('#tools_bottom').toggleClass('expanded');
   });
-
+  //监听鼠标键盘事件
   (function () {
     const wArea = workarea[0];
 
@@ -3688,7 +3688,7 @@ editor.init = () => {
       svgCanvas.spaceKey = keypan = active;
     };
   }());
-
+  //左上角editor按钮内部事件绑定
   (function () {
     const button = $('#main_icon');
     const overlay = $('#main_icon span');
@@ -3770,6 +3770,7 @@ editor.init = () => {
   }());
   // Made public for UI customization.
   // TODO: Group UI functions into a public editor.ui interface.
+  // 控制下拉菜单样式设置 font_family_dropdown | opacity_dropdown ==
   /**
    * See {@link http://api.jquery.com/bind/#bind-eventType-eventData-handler}.
    * @callback module:SVGEditor.DropDownCallback
@@ -3838,6 +3839,7 @@ editor.init = () => {
   }, true);
 
   // For slider usage, see: http://jqueryui.com/demos/slider/
+  //底部拖拽设置透明度
   $('#opac_slider').slider({
     start () {
       $('#opacity_dropdown li:not(.special)').hide();
@@ -5393,6 +5395,7 @@ editor.init = () => {
   //   // }
   // }
 
+  //左上角svg-editor Document Properties -> Canvas Dimensions 设置图片尺寸比例
   $('#resolution').change(function () {
     const wh = $('#canvas_width,#canvas_height');
     if (!this.selectedIndex) {
@@ -5440,6 +5443,7 @@ editor.init = () => {
      * @name module:SVGEditor~ToolButtons
      * @type {module:SVGEditor.ToolButton[]}
      */
+    // 快捷键
     const toolButtons = [
       {sel: '#tool_select', fn: clickSelect, evt: 'click', key: ['V', true]},
       {sel: '#tool_fhpath', fn: clickFHPath, evt: 'click', key: ['Q', true]},
@@ -5720,7 +5724,7 @@ editor.init = () => {
     };
   }());
 
-  // Select given tool
+  // Select given tool ？？？为啥要挨着触发一次事件 初始化？
   editor.ready(function () {
     const preTool = document.getElementById(`tool_${curConfig.initTool}`);
     const regTool = document.getElementById(curConfig.initTool);

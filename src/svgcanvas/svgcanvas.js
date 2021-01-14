@@ -209,7 +209,7 @@ class SvgCanvas {
  * @name module:svgcanvas~svgcontent
  * @type {SVGSVGElement}
  */
-    let svgcontent = svgdoc.createElementNS(NS.SVG, 'svg');
+    let svgcontent = svgdoc.createElementNS(NS.SVG, 'svg');//静态变量namespace 命名空间
 
     /**
 * This should really be an intersection implementing all rather than a union.
@@ -1926,6 +1926,7 @@ class SvgCanvas {
 
     /**
 * Sets the editor's mode to the given string.
+* 设置当前左侧选中编辑模式
 * @function module:svgcanvas.SvgCanvas#setMode
 * @param {string} name - String with the new mode to change to
 * @returns {void}
